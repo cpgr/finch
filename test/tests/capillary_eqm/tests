@@ -1,0 +1,22 @@
+[Tests]
+  [capeqm1]
+    type = 'Exodiff'
+    input = 'capeqm1.i'
+    exodiff = 'capeqm1_out.e'
+  []
+  [capeqm2]
+    type = 'Exodiff'
+    input = 'capeqm2.i'
+    exodiff = 'capeqm2_out.e'
+  []
+  [capeqm3]
+    type = 'Exodiff'
+    input = 'capeqm3.i'
+    exodiff = 'capeqm3_out.e'
+  []
+  [capeqm4]
+    type = 'Exodiff'
+    input = 'capeqm4.i'
+    exodiff = 'capeqm4_out.e'
+  []
+[]
