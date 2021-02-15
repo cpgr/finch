@@ -1,22 +1,22 @@
 [Tests]
   [capeqm1]
-    type = 'Exodiff'
+    type = 'CSVDiff'
     input = 'capeqm1.i'
-    exodiff = 'capeqm1_out.e'
+    csvdiff = 'capeqm1_csv_snw_0020.csv'
   []
   [capeqm2]
-    type = 'Exodiff'
+    type = 'CSVDiff'
     input = 'capeqm2.i'
-    exodiff = 'capeqm2_out.e'
+    csvdiff = 'capeqm2_csv_snw_0020.csv'
   []
   [capeqm3]
-    type = 'Exodiff'
+    type = 'CSVDiff'
     input = 'capeqm3.i'
-    exodiff = 'capeqm3_out.e'
+    csvdiff = 'capeqm3_csv_snw_0020.csv'
   []
   [capeqm4]
-    type = 'Exodiff'
+    type = 'CSVDiff'
     input = 'capeqm4.i'
-    exodiff = 'capeqm4_out.e'
+    csvdiff = 'capeqm4_csv_snw_0020.csv'
   []
 []

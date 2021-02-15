@@ -22,6 +22,12 @@
 [Adaptivity]
   marker = marker
   max_h_level = 3
+  [Indicators]
+    [ind]
+      type = ValueJumpIndicator
+      variable = sw
+    []
+  []
   [Markers]
     [marker]
       type = ValueRangeMarker

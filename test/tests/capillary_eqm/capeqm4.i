@@ -2,9 +2,6 @@
 # k1/k2 = 4
 # Pe1/Pe2 = 1/2
 
-# Note: this test runs for 20 time steps only on a coarse mesh. Delete Executioner/num_steps
-# to run to end_time
-
 [Mesh]
   [mesh]
     type = GeneratedMeshGenerator
@@ -217,15 +214,16 @@
 [Executioner]
   type = Transient
   solve_type = NEWTON
-  end_time = 1e5
-  dtmax = 100
-  num_steps = 20
+  end_time = 1e2
+  dtmax = 20
   [TimeStepper]
     type = IterationAdaptiveDT
     dt = 1e-3
   []
-  nl_abs_tol = 2e-7
-  nl_max_its = 20
+  l_abs_tol = 1e-10
+  nl_abs_tol = 1e-8
+  nl_rel_tol = 1e-06
+  nl_max_its = 10
 []
 
 [VectorPostprocessors]
@@ -233,16 +231,13 @@
     type = ElementValueSampler
     variable = snw
     sort_by = x
-    execute_on = final
   []
 []
 
 [Outputs]
-  exodus = true
   perf_graph = true
   [csv]
     type = CSV
     execute_vector_postprocessors_on = final
-    create_final_symlink = true
   []
 []
