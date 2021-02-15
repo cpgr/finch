@@ -69,7 +69,8 @@ FVAdvectiveFlux::computeQpResidual()
               mobility_element,
               mobility_neighbor,
               gradp,
-              *_face_info);
+              *_face_info,
+              true);
 
   return mobility_upwind * gradp * _normal;
 }
