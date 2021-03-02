@@ -1,6 +1,6 @@
-# Capillary equilibrium case 1
-# k1/k2 = 1
-# Pe1/Pe2 = 1
+# Capillary equilibrium case 2
+# k1/k2 = 1/2
+# Pe1/Pe2 = sqrt(2)
 
 [Mesh]
   [left_mesh]
@@ -9,7 +9,7 @@
     xmin = -1
     xmax = 0
     nx = 50
-    bias_x = 1.02
+    bias_x = 0.98
   []
   [right_mesh]
     type = GeneratedMeshGenerator
@@ -17,7 +17,7 @@
     xmin = 0
     xmax = 1
     nx = 50
-    bias_x = 0.98
+    bias_x = 1.02
   []
   [stitched]
     type = StitchedMeshGenerator
@@ -214,7 +214,7 @@
   []
   [permeability1]
     type = Permeability
-    perm_xx = 1e-12
+    perm_xx = 2e-12
     block = 1
   []
   [pc0]
@@ -229,7 +229,7 @@
     type = CapillaryPressureBC
     saturation_w = sw
     lambda = 2
-    pe = 3500
+    pe = 2475
     pc_max = 1e4
     block = 1
   []
