@@ -173,34 +173,17 @@
   []
 []
 
-[Modules]
-  [FluidProperties]
-    [f0]
-      type = SimpleFluidProperties
-      density0 = 1000
-      viscosity = 1e-3
-    []
-    [f1]
-      type = SimpleFluidProperties
-      density0 = 1000
-      viscosity = 1e-3
-    []
-  []
-[]
-
 [Materials]
-  [f0]
-    type = Fluid
-    fp = f0
-    pressure_w = pw
-    temperature = 393
+  [fw]
+    type = ConstantFluid
+    density = 1000
+    viscosity = 1e-3
     nw_phase = false
   []
-  [f1]
-    type = Fluid
-    fp = f1
-    pressure_w = pw
-    temperature = 393
+  [fnw]
+    type = ConstantFluid
+    density = 1000
+    viscosity = 1e-3
     nw_phase = true
   []
   [porosity]

@@ -173,21 +173,6 @@
   []
 []
 
-[Modules]
-  [FluidProperties]
-    [f0]
-      type = SimpleFluidProperties
-      density0 = 1000
-      viscosity = 1e-3
-    []
-    [f1]
-      type = SimpleFluidProperties
-      density0 = 1000
-      viscosity = 1e-3
-    []
-  []
-[]
-
 [Materials]
   [f0]
     type = Fluid
