@@ -8,6 +8,7 @@
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
 #include "FVDarcyOutflowBC.h"
+#include "MooseUtils.h"
 
 registerADMooseObject("finchApp", FVDarcyOutflowBC);
 
@@ -54,7 +55,7 @@ FVDarcyOutflowBC::computeQpResidual()
                             (_face_info->neighborCentroid() - _face_info->elemCentroid()).norm() *
                             (_face_info->elemCentroid() - _face_info->neighborCentroid()).unit();
 
-  mooseAssert(_normal * gradp >= 0,
+  mooseAssert(MooseUtils::absoluteFuzzyGreaterEqual(_normal * gradp, 0.0, 1.0e-6),
               "This boundary condition is for outflow but the flow is in the opposite direction of "
               "the boundary normal");
 

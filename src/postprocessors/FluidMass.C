@@ -32,5 +32,8 @@ FluidMass::FluidMass(const InputParameters & params)
 Real
 FluidMass::computeQpIntegral()
 {
-  return _porosity[_qp] * _saturation[_qp].value() * _density[_qp].value();
+  // Clip to zero to avoid small negative masses due to precision
+  const Real mass = _porosity[_qp] * _saturation[_qp].value() * _density[_qp].value();
+
+  return (mass > 0.0 ? mass : 0.0);
 }
