@@ -15,18 +15,12 @@
 [Adaptivity]
   marker = marker
   max_h_level = 1
-  [Indicators]
-    [ind]
-      type = ValueJumpIndicator
-      variable = swaux
-    []
-  []
   [Markers]
     [marker]
-      type = ErrorFractionMarker
-      indicator = ind
-      refine = 0.5
-      coarsen = 0.1
+      type = ValueChangeMarker
+      variable = snw
+      upper_bound = 1
+      lower_bound = 0.05
     []
   []
 []
@@ -49,10 +43,6 @@
     order = CONSTANT
   []
   [snw]
-    family = MONOMIAL
-    order = CONSTANT
-  []
-  [swaux]
     family = MONOMIAL
     order = CONSTANT
   []
@@ -81,13 +71,6 @@
     type = ADMaterialRealAux
     variable = snw
     property = s_nw
-    execute_on = 'initial timestep_end'
-  []
-  [swaux]
-    type = ParsedAux
-    variable = swaux
-    function = sw
-    args = sw
     execute_on = 'initial timestep_end'
   []
 []
@@ -177,36 +160,17 @@
   []
 []
 
-[Modules]
-  [FluidProperties]
-    [f0]
-      type = SimpleFluidProperties
-      density0 = 1000
-      viscosity = 1e-3
-      bulk_modulus = 1e12
-    []
-    [f1]
-      type = SimpleFluidProperties
-      density0 = 10
-      viscosity = 1e-5
-      bulk_modulus = 1e12
-    []
-  []
-[]
-
 [Materials]
-  [f0]
-    type = Fluid
-    fp = f0
-    pressure_w = pw
-    temperature = 393
+  [fw]
+    type = ConstantFluid
+    density = 1000
+    viscosity = 1e-3
     nw_phase = false
   []
-  [f1]
-    type = Fluid
-    fp = f1
-    pressure_w = pw
-    temperature = 393
+  [fnw]
+    type = ConstantFluid
+    density = 10
+    viscosity = 1e-4
     nw_phase = true
   []
   [porosity]
@@ -226,8 +190,8 @@
   []
   [relperm]
     type = RelPermBC
-    lambda_nw = 2
-    lambda_w = 2
+    lambda_nw = 4
+    lambda_w = 4
     saturation_w = sw
   []
   [props]

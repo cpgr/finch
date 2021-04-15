@@ -152,23 +152,6 @@
   []
 []
 
-[Modules]
-  [FluidProperties]
-    [f0]
-      type = SimpleFluidProperties
-      density0 = 1000
-      viscosity = 1e-3
-      bulk_modulus = 1e12
-    []
-    [f1]
-      type = SimpleFluidProperties
-      density0 = 10
-      viscosity = 1e-4
-      bulk_modulus = 1e12
-    []
-  []
-[]
-
 [Materials]
   [fw]
     type = ConstantFluid
