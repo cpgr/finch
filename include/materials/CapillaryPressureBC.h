@@ -22,7 +22,7 @@ protected:
 
 private:
   const Real _lambda;
-  const ADVariableValue & _pe;
+  const VariableValue & _pe;
   const Real _pc_max;
 
   ADMaterialProperty<Real> & _pc;

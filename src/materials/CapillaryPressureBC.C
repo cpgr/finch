@@ -19,7 +19,7 @@ CapillaryPressureBC::validParams()
 CapillaryPressureBC::CapillaryPressureBC(const InputParameters & parameters)
   : Material(parameters),
     _lambda(getParam<Real>("lambda")),
-    _pe(adCoupledValue("pe")),
+    _pe(coupledValue("pe")),
     _pc_max(getParam<Real>("pc_max")),
     _pc(declareADProperty<Real>("pc")),
     _sw(adCoupledValue("saturation_w"))
