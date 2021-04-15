@@ -10,24 +10,18 @@
   []
 []
 
-# [Adaptivity]
-#   marker = marker
-#   max_h_level = 3
-#   [Indicators]
-#     [ind]
-#       type = ValueJumpIndicator
-#       variable = swaux
-#     []
-#   []
-#   [Markers]
-#     [marker]
-#       type = ErrorFractionMarker
-#       indicator = ind
-#       refine = 0.5
-#       coarsen = 0.1
-#     []
-#   []
-# []
+[Adaptivity]
+  marker = marker
+  max_h_level = 3
+  [Markers]
+    [marker]
+      type = ValueChangeMarker
+      variable = snw
+      upper_bound = 1
+      lower_bound = 0.05
+    []
+  []
+[]
 
 [Problem]
   kernel_coverage_check = off
