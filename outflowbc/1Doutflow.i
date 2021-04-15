@@ -199,7 +199,7 @@
 [Executioner]
   type = Transient
   solve_type = NEWTON
-  end_time = 2e4
+  end_time = 1e5
   dtmax = 1e3
   [TimeStepper]
     type = IterationAdaptiveDT
