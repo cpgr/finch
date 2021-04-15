@@ -6,28 +6,28 @@
     dim = 1
     xmin = 0
     xmax = 10
-    nx = 50
+    nx = 100
   []
 []
 
-[Adaptivity]
-  marker = marker
-  max_h_level = 1
-  [Indicators]
-    [ind]
-      type = ValueJumpIndicator
-      variable = swaux
-    []
-  []
-  [Markers]
-    [marker]
-      type = ErrorFractionMarker
-      indicator = ind
-      refine = 0.5
-      coarsen = 0.1
-    []
-  []
-[]
+# [Adaptivity]
+#   marker = marker
+#   max_h_level = 3
+#   [Indicators]
+#     [ind]
+#       type = ValueJumpIndicator
+#       variable = swaux
+#     []
+#   []
+#   [Markers]
+#     [marker]
+#       type = ErrorFractionMarker
+#       indicator = ind
+#       refine = 0.5
+#       coarsen = 0.1
+#     []
+#   []
+# []
 
 [Problem]
   kernel_coverage_check = off
@@ -47,10 +47,6 @@
     order = CONSTANT
   []
   [snw]
-    family = MONOMIAL
-    order = CONSTANT
-  []
-  [swaux]
     family = MONOMIAL
     order = CONSTANT
   []
@@ -79,13 +75,6 @@
     type = ADMaterialRealAux
     variable = snw
     property = s_nw
-    execute_on = 'initial timestep_end'
-  []
-  [swaux]
-    type = ParsedAux
-    variable = swaux
-    function = sw
-    args = sw
     execute_on = 'initial timestep_end'
   []
 []
@@ -180,25 +169,23 @@
     [f1]
       type = SimpleFluidProperties
       density0 = 10
-      viscosity = 1e-5
+      viscosity = 1e-4
       bulk_modulus = 1e12
     []
   []
 []
 
 [Materials]
-  [f0]
-    type = Fluid
-    fp = f0
-    pressure_w = pw
-    temperature = 393
+  [fw]
+    type = ConstantFluid
+    density = 1000
+    viscosity = 1e-3
     nw_phase = false
   []
-  [f1]
-    type = Fluid
-    fp = f1
-    pressure_w = pw
-    temperature = 393
+  [fnw]
+    type = ConstantFluid
+    density = 10
+    viscosity = 1e-4
     nw_phase = true
   []
   [porosity]
@@ -218,8 +205,8 @@
   []
   [relperm]
     type = RelPermBC
-    lambda_nw = 2
-    lambda_w = 2
+    lambda_nw = 4
+    lambda_w = 4
     saturation_w = sw
   []
   [props]
@@ -241,11 +228,11 @@
 [Executioner]
   type = Transient
   solve_type = NEWTON
-  end_time = 1e5
-  dtmax = 1e3
+  end_time = 4e5
+  dtmax = 500
   [TimeStepper]
     type = IterationAdaptiveDT
-    dt = 10
+    dt = 0.00001
     growth_factor = 2
   []
   [TimeIntegrator]
@@ -279,15 +266,17 @@
     type = ElementValueSampler
     variable = snw
     sort_by = x
-    execute_on = FINAL
+    execute_on = timestep_end
   []
 []
 
 [Outputs]
   perf_graph = true
-  exodus = true
+  interval = 10
   [csv]
     type = CSV
-    execute_vector_postprocessors_on = FINAL
+    sync_times = '1e5 2e5 4e5'
+    sync_only = true
+    time_data = true
   []
 []
