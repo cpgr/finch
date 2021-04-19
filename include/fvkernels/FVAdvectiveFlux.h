@@ -42,4 +42,6 @@ protected:
   const ADVariableValue & _pw_neighbor;
   const ADVariableValue & _sw;
   const ADVariableValue & _sw_neighbor;
+
+  const RealVectorValue & _gravity;
 };

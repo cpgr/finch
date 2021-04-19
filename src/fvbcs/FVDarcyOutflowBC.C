@@ -18,6 +18,8 @@ FVDarcyOutflowBC::validParams()
   InputParameters params = FVFluxBC::validParams();
   params.addRequiredCoupledVar("pressure_w", "The wetting phase pressure (Pa)");
   params.addParam<bool>("nw_phase", "false", "Whether phase is non-wetting phase");
+  RealVectorValue g(0, 0, -9.81);
+  params.addParam<RealVectorValue>("gravity", g, "Gravity vector. Defaults to (0, 0, -9.81)");
   return params;
 }
 
@@ -36,7 +38,8 @@ FVDarcyOutflowBC::FVDarcyOutflowBC(const InputParameters & params)
     _pc(getADMaterialProperty<Real>("pc")),
     _pc_neighbor(getNeighborADMaterialProperty<Real>("pc")),
     _pw(adCoupledValue("pressure_w")),
-    _pw_neighbor(adCoupledNeighborValue("pressure_w"))
+    _pw_neighbor(adCoupledNeighborValue("pressure_w")),
+    _gravity(getParam<RealVectorValue>("gravity"))
 {
 }
 
@@ -55,10 +58,6 @@ FVDarcyOutflowBC::computeQpResidual()
                             (_face_info->neighborCentroid() - _face_info->elemCentroid()).norm() *
                             (_face_info->elemCentroid() - _face_info->neighborCentroid()).unit();
 
-  mooseAssert(MooseUtils::absoluteFuzzyGreaterEqual(_normal * gradp, 0.0, 1.0e-6),
-              "This boundary condition is for outflow but the flow is in the opposite direction of "
-              "the boundary normal");
-
   const ADRealTensorValue mobility_element =
       _relperm[_qp] * _permeability[_qp] * _density[_qp] / _viscosity[_qp];
   const ADRealTensorValue mobility_neighbor = _relperm_neighbor[_qp] * _permeability_neighbor[_qp] *
@@ -70,9 +69,9 @@ FVDarcyOutflowBC::computeQpResidual()
               mobility_upwind,
               mobility_element,
               mobility_neighbor,
-              gradp,
+              (gradp - _density[_qp] * _gravity),
               *_face_info,
               true);
 
-  return mobility_upwind * gradp * _normal;
+  return mobility_upwind * (gradp - _density[_qp] * _gravity) * _normal;
 }

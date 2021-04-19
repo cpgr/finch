@@ -40,4 +40,6 @@ protected:
 
   const ADVariableValue & _pw;
   const ADVariableValue & _pw_neighbor;
+
+  const RealVectorValue & _gravity;
 };

@@ -18,6 +18,8 @@ FVAdvectiveFlux::validParams()
   params.addRequiredCoupledVar("pressure_w", "The wetting phase pressure (Pa)");
   params.addRequiredCoupledVar("saturation_w", "The wetting phase saturation (-)");
   params.addParam<bool>("nw_phase", "false", "Whether phase is non-wetting phase");
+  RealVectorValue g(0, 0, -9.81);
+  params.addParam<RealVectorValue>("gravity", g, "Gravity vector. Defaults to (0, 0, -9.81)");
   return params;
 }
 
@@ -38,7 +40,8 @@ FVAdvectiveFlux::FVAdvectiveFlux(const InputParameters & params)
     _pw(adCoupledValue("pressure_w")),
     _pw_neighbor(adCoupledNeighborValue("pressure_w")),
     _sw(adCoupledValue("saturation_w")),
-    _sw_neighbor(adCoupledNeighborValue("saturation_w"))
+    _sw_neighbor(adCoupledNeighborValue("saturation_w")),
+    _gravity(getParam<RealVectorValue>("gravity"))
 {
 }
 
@@ -68,9 +71,9 @@ FVAdvectiveFlux::computeQpResidual()
               mobility_upwind,
               mobility_element,
               mobility_neighbor,
-              gradp,
+              (gradp - _density[_qp] * _gravity),
               *_face_info,
               true);
 
-  return mobility_upwind * gradp * _normal;
+  return mobility_upwind * (gradp - _density[_qp] * _gravity) * _normal;
 }
