@@ -267,6 +267,7 @@
 
 [Executioner]
   type = Transient
+  num_steps = 10
   solve_type = Newton
   nl_abs_tol = 1e-8
   nl_max_its = 20
@@ -291,6 +292,20 @@
   [massnw]
     type = FluidMass
     nw_phase = true
+    execute_on = 'INITIAL TIMESTEP_END'
+  []
+  [porevol]
+    type = TotalPoreVolume
+    execute_on = 'INITIAL TIMESTEP_END'
+  []
+  [N2porevol]
+    type = FluidPoreVolume
+    nw_phase = true
+    execute_on = 'INITIAL TIMESTEP_END'
+  []
+  [H2Oporevol]
+    type = FluidPoreVolume
+    nw_phase = false
     execute_on = 'INITIAL TIMESTEP_END'
   []
 []

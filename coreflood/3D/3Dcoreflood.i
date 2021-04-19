@@ -229,8 +229,9 @@
   num_steps = 5
   solve_type = Newton
   nl_abs_tol = 1e-8
+  nl_rel_tol = 1e-5
   nl_max_its = 20
-  dtmax = 60
+  dtmax = 20
   end_time = 1.872e4
   [TimeStepper]
     type = IterationAdaptiveDT
@@ -259,4 +260,5 @@
   print_linear_residuals = false
   exodus = true
   perf_graph = true
+  sync_times = 60
 []
