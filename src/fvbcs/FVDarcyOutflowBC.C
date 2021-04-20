@@ -73,5 +73,8 @@ FVDarcyOutflowBC::computeQpResidual()
               *_face_info,
               true);
 
-  return mobility_upwind * (gradp - _density[_qp] * _gravity) * _normal;
+  const auto flux = mobility_upwind * (gradp - _density[_qp] * _gravity) * _normal;
+
+  // Restrict flux to be positive (no inflow allowed)
+  return (flux.value() > 0.0 ? flux : 0.0);
 }
