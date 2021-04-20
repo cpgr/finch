@@ -41,7 +41,7 @@
     type = RenameBoundaryGenerator
     input = core
     old_boundary = 'bottom top front back'
-    new_boundary = 'front back bottom top'
+    new_boundary = 'back front top bottom'
   []
 []
 
