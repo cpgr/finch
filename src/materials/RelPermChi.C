@@ -10,7 +10,7 @@ RelPermChi::validParams()
   params.addRequiredParam<Real>("L_water", "Chierici L parameter for the wetting phase");
   params.addRequiredParam<Real>("B_gas", "Chierici B parameter for the non-wetting phase");
   params.addRequiredParam<Real>("M_gas", "Chierici M parameter for the non-wetting phase");
-  params.addRequiredParam<Real>("swirr", "The irreducible saturation of the wetting phase");
+  params.addRangeCheckedParam<Real>("swirr", 0, "swirr >= 0 & swirr < 1", "The irreducible saturation of the wetting phase");
   params.addRequiredParam<Real>("krw_end", "The endpoint relative permeability the wetting phase");
   params.addRequiredParam<Real>("krnw_end", "The endpoint relative permeability the non-wetting phase");
   params.addRequiredCoupledVar("saturation_w", "The wetting phase saturation");
@@ -35,7 +35,17 @@ RelPermChi::RelPermChi(const InputParameters & parameters)
 void
 RelPermChi::computeQpProperties()
 {
-  _relperm_w[_qp] =  _krw_end*std::exp((-1*_A_water*std::pow( ((_sw[_qp]- _swirr)/(1 - _sw[_qp])), -1*_L_water)));
-  _relperm_nw[_qp] =  _krnw_end*std::exp((-1*_B_gas*std::pow( ((_sw[_qp]- _swirr)/(1 - _sw[_qp])), _M_gas)));
+
+  if ((1 - _sw[_qp]) < 1e-15) // We are at sw == 1
+    {
+      _relperm_w[_qp] =  _krw_end;
+      _relperm_nw[_qp] =  0;
+    }
+    else
+    {
+      _relperm_w[_qp] =  _krw_end*std::exp((-1*_A_water*std::pow( ((_sw[_qp]- _swirr)/(1 - _sw[_qp])), -1*_L_water)));
+      _relperm_nw[_qp] =  _krnw_end*std::exp((-1*_B_gas*std::pow( ((_sw[_qp]- _swirr)/(1 - _sw[_qp])), _M_gas)));
+
+    }
 
 }

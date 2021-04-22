@@ -8,7 +8,7 @@ CapillaryPressureBC2::validParams()
   InputParameters params = Material::validParams();
   params.addRequiredParam<Real>("lambda", "The Brooks-Corey exponent");
   params.addRequiredCoupledVar("pe", "The Brooks-Corey capillary entry pressure");
-  params.addRequiredParam<Real>("swirr", "The irreducible saturation of the wetting phase");
+  params.addRangeCheckedParam<Real>("swirr", 0, "swirr >= 0 & swirr < 1", "The irreducible saturation of the wetting phase");
   params.addParam<Real>(
       "pc_max",
       1e5,
@@ -34,7 +34,7 @@ CapillaryPressureBC2::computeQpProperties()
   if (_sw[_qp].value()<= _swirr)
     _pc[_qp] = _pc_max;
 
-  ADReal pc = _pe[_qp] * std::pow((_sw[_qp]-_swirr)/(1-_swirr), -1.0 / _lambda);
+  ADReal pc = _pe[_qp] * std::pow( (( _sw[_qp] - _swirr )/(1 - _swirr)), -1.0 / _lambda);
 
   if (pc.value() < _pc_max)
     _pc[_qp] = pc;

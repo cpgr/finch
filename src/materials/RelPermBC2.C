@@ -8,7 +8,7 @@ RelPermBC2::validParams()
   InputParameters params = Material::validParams();
   params.addRequiredParam<Real>("w_coeff", "The Brooks-Corey exponent of the wetting phase");
   params.addRequiredParam<Real>("nw_coeff", "The Brooks-Corey exponent of the non-wetting phase");
-  params.addRequiredParam<Real>("swirr", "The irreducible saturation of the wetting phase");
+  params.addRangeCheckedParam<Real>("swirr", 0, "swirr >= 0 & swirr < 1", "The irreducible saturation of the wetting phase");
   params.addRequiredParam<Real>("krw_end", "The endpoint relative permeability the wetting phase");
   params.addRequiredParam<Real>("krnw_end", "The endpoint relative permeability the non-wetting phase");
   params.addRequiredCoupledVar("saturation_w", "The wetting phase saturation");
