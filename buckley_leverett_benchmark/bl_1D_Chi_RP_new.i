@@ -183,12 +183,12 @@
   []
   [relperm]
     type = RelPermChi
-    A_water = 0.5
-    L_water = 2
-    B_gas = 0.8
-    M_gas = 1.2
+    A_water = 2
+    L_water = 0.75
+    B_gas = 2
+    M_gas = 0.75
     krw_end = 1
-    krnw_end = 0.6
+    krnw_end = 1
     swirr = 0.08
     saturation_w = sw
   []
@@ -215,14 +215,14 @@
   dtmax = 500
   [TimeStepper]
     type = IterationAdaptiveDT
-    dt = 0.000001
+    dt = 0.0000001
     growth_factor = 2
   []
   [TimeIntegrator]
     type = BDF2
   []
   nl_abs_tol = 1e-8
-  nl_max_its = 40
+  nl_max_its = 10
   nl_rel_tol = 1e-5
   l_abs_tol = 1e-12
 []
