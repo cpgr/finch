@@ -9,22 +9,18 @@
 
 #pragma once
 
-#include "Material.h"
+#include "RelPermBase.h"
 
-class RelPermBC : public Material
+class RelPermBC : public RelPermBase
 {
 public:
   static InputParameters validParams();
   RelPermBC(const InputParameters & parameters);
 
 protected:
-  virtual void computeQpProperties();
+  virtual void computeQpProperties() override;
 
 private:
   const Real _lambda_w;
   const Real _lambda_nw;
-
-  ADMaterialProperty<Real> & _relperm_w;
-  ADMaterialProperty<Real> & _relperm_nw;
-  const ADVariableValue & _sw;
 };

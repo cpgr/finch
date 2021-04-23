@@ -9,16 +9,16 @@
 
 #pragma once
 
-#include "Material.h"
+#include "RelPermBase.h"
 
-class RelPermChi : public Material
+class RelPermChi : public RelPermBase
 {
 public:
   static InputParameters validParams();
   RelPermChi(const InputParameters & parameters);
 
 protected:
-  virtual void computeQpProperties();
+  virtual void computeQpProperties() override;
 
 private:
   const Real _A_water;
@@ -28,8 +28,4 @@ private:
   const Real _krw_end;
   const Real _krnw_end;
   const Real _swirr;
-
-  ADMaterialProperty<Real> & _relperm_w;
-  ADMaterialProperty<Real> & _relperm_nw;
-  const ADVariableValue & _sw;
 };
