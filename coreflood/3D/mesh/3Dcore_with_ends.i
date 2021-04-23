@@ -95,9 +95,21 @@
     old_block_id = 1
     new_block_id = 0
   []
+  [topcap]
+    type = ParsedSubdomainMeshGenerator
+    input = core
+    combinatorial_geometry = 'z>0.903'
+    block_id = 1
+  []
+  [bottomcap]
+    type = ParsedSubdomainMeshGenerator
+    input = topcap
+    combinatorial_geometry = 'z<0'
+    block_id = 1
+  []
   [boundaries]
     type = RenameBoundaryGenerator
-    input = core
+    input = bottomcap
     old_boundary = 'bottom top front back'
     new_boundary = 'back front top bottom'
   []
