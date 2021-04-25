@@ -34,10 +34,15 @@ void
 RelPermChi::computeQpProperties()
 {
 
-  if ((1.0 - _sw[_qp]) < 1.0e-15) // We are at sw == 1
+  if ((1.0 - _sw[_qp].value()) < 1.0e-15) // We are at sw == 1
   {
     _relperm_w[_qp] = _krw_end;
     _relperm_nw[_qp] = 0.0;
+  }
+  else if (_sw[_qp].value() - _swirr < 1.0e-15) // We are at sw == swirr
+  {
+    _relperm_w[_qp] = 0.0;
+    _relperm_nw[_qp] = _krnw_end;
   }
   else
   {

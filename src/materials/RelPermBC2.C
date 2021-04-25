@@ -29,6 +29,15 @@ RelPermBC2::RelPermBC2(const InputParameters & parameters)
 void
 RelPermBC2::computeQpProperties()
 {
-  _relperm_w[_qp] = _krw_end * std::pow(((_sw[_qp] - _swirr) / (1.0 - _swirr)), _w_coeff);
-  _relperm_nw[_qp] = _krnw_end * std::pow(1.0 - ((_sw[_qp] - _swirr) / (1.0 - _swirr)), _nw_coeff);
+  if (_sw[_qp].value() - _swirr < 1.0e-15) // We are at sw == swirr
+  {
+    _relperm_w[_qp] = 0.0;
+    _relperm_nw[_qp] = _krnw_end;
+  }
+  else
+  {
+    _relperm_w[_qp] = _krw_end * std::pow(((_sw[_qp] - _swirr) / (1.0 - _swirr)), _w_coeff);
+    _relperm_nw[_qp] =
+        _krnw_end * std::pow(1.0 - ((_sw[_qp] - _swirr) / (1.0 - _swirr)), _nw_coeff);
+  }
 }
