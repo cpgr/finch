@@ -67,7 +67,7 @@ FVAdvectiveFlux::computeQpResidual()
   const ADRealTensorValue mobility_neighbor = _relperm_neighbor[_qp] * _permeability_neighbor[_qp] *
                                               _density_neighbor[_qp] / _viscosity_neighbor[_qp];
 
-  const auto pressure_grad = gradp - _density[_qp] * _gravity;
+  const auto pressure_grad = gradp + _density[_qp] * _gravity;
 
   ADRealTensorValue mobility_upwind;
   interpolate(Moose::FV::InterpMethod::Upwind,
