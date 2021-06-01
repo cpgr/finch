@@ -1,3 +1,10 @@
+/*****************************************************************/
+/*    FINCH - FINite volume Capillary Heterogeneity modelling    */
+/*                                                               */
+/*           All contents are licensed under MIT/BSD             */
+/*              See LICENSE for full restrictions                */
+/*****************************************************************/
+
 #include "ConstantFluid.h"
 
 registerMooseObject("finchApp", ConstantFluid);

@@ -31,7 +31,7 @@
 []
 
 [GlobalParams]
-  gravity = '0 0 9.81'
+  gravity = '0 0 -9.81'
 []
 
 [Debug]
@@ -57,7 +57,7 @@
     family = MONOMIAL
     order = CONSTANT
     fv = true
-    scaling = 1e4
+    # scaling = 1e4
   []
 []
 
@@ -241,17 +241,26 @@
     full = true
     petsc_options_iname = '-sub_pc_type -pc_type -sub_pc_factor_shift_type'
     petsc_options_value = 'lu asm NONZERO'
+    petsc_options = '-ksp_snes_ew'
+    # petsc_options_iname =  '-sub_pc_type -sub_pc_factor_shift_type -pc_type -pc_hypre_type -pc_factor_levels'
+    # petsc_options_value = 'ilu NONZERO hypre boomeramg 4'
+    # petsc_options_iname = '-pc_type -pc_factor_mat_solver_package'
+  	# petsc_options_value = ' lu       mumps'
   []
 []
 
 [Executioner]
   type = Transient
   solve_type = Newton
-  nl_abs_tol = 1e-6
-  nl_rel_tol = 1e-4
+  nl_abs_tol = 1e-8
+  nl_rel_tol = 1e-6
   nl_max_its = 20
   dtmax = 60
   end_time = 1.875e4
+  num_steps = 2
+  automatic_scaling = true
+  compute_scaling_once = false
+  verbose = true
   [TimeStepper]
     type = IterationAdaptiveDT
     dt = 1
@@ -290,7 +299,7 @@
 []
 
 [Outputs]
-  print_linear_residuals = false
+  print_linear_residuals = true
   exodus = true
   perf_graph = true
 []

@@ -6,33 +6,29 @@ import pandas as pd
 import numpy as np
 
 # Number of elements in each direction
-nx, ny, nz = 15, 15, 152
+nx, ny, nz = 15, 15, 148
 
 # Range of x,y
 xmin, xmax = 0.0, 0.09
 ymin, ymax = 0.0, 0.09
+zmin, zmax = 0.0, 0.888
 
 # Arrays of corner coords
-# Note: z is a special case as we add two layers to each end
 xcoords = np.linspace(xmin, xmax, nx+1)
 ycoords = np.linspace(ymin, ymax, ny+1)
-zcoords = np.linspace(0.0075, 0.888 + 0.0075, 149)
-zcoords = np.insert(zcoords, 0, 0)
-zcoords = np.insert(zcoords, 0, -0.001)
-zcoords = np.append(zcoords, 0.903)
-zcoords = np.append(zcoords, 0.904)
+zcoords = np.linspace(zmin, zmax, nz+1)
 
 # Read in the material data
 # Porosity
-pordata = pd.read_csv("./por_mat_w_ends.dat", header=None, na_values=['NaN'], skipinitialspace=True)
+pordata = pd.read_csv("./por_mat.dat", header=None, na_values=['NaN'], skipinitialspace=True)
 pordata = pordata.values.reshape(nz, ny, nx)
 
 # Permeability
-permdata = pd.read_csv("./perm_mat_w_ends.dat", header=None, na_values=['NaN'], skipinitialspace=True)
+permdata = pd.read_csv("./perm_mat.dat", header=None, na_values=['NaN'], skipinitialspace=True)
 permdata = permdata.values.reshape(nz, ny, nx)
 
 # Pe
-pedata = pd.read_csv("./pe_mat_w_ends.dat", header=None, na_values=['NaN'], skipinitialspace=True)
+pedata = pd.read_csv("./pe_mat.dat", header=None, na_values=['NaN'], skipinitialspace=True)
 pedata = pedata.values.reshape(nz, ny, nx)
 
 # Convert to SI units
@@ -40,7 +36,7 @@ permdata = permdata * 9.869233e-16 #md to m^2
 pedata = pedata * 1e3 #kPa to Pa
 
 # Write porosity data to MOOSE GriddedData format
-with open('porosity_griddeddata_w_ends.dat', 'w') as f:
+with open('porosity_griddeddata.dat', 'w') as f:
     # Header
     f.write('# Core porosity field\n\n')
 
@@ -64,7 +60,7 @@ with open('porosity_griddeddata_w_ends.dat', 'w') as f:
     f.write('\n\n')
 
 # Write permeability data to MOOSE GriddedData format
-with open('perm_griddeddata_w_ends.dat', 'w') as f:
+with open('perm_griddeddata.dat', 'w') as f:
     # Header
     f.write('# Core permeability field\n\n')
 
@@ -88,7 +84,7 @@ with open('perm_griddeddata_w_ends.dat', 'w') as f:
     f.write('\n\n')
 
 # Write entry pressure data to MOOSE GriddedData format
-with open('pe_griddeddata_w_ends.dat', 'w') as f:
+with open('pe_griddeddata.dat', 'w') as f:
     # Header
     f.write('# Core entry pressure field\n\n')
 
