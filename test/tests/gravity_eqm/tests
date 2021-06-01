@@ -1,0 +1,32 @@
+[Tests]
+  [singlephase_1D]
+    type = 'Exodiff'
+    input = 'singlephase_1D.i'
+    exodiff = 'singlephase_1D_out.e'
+  []
+  [singlephase_2D]
+    type = 'Exodiff'
+    input = 'singlephase_2D.i'
+    exodiff = 'singlephase_2D_out.e'
+  []
+  [singlephase_3D]
+    type = 'Exodiff'
+    input = 'singlephase_3D.i'
+    exodiff = 'singlephase_3D_out.e'
+  []
+  [twophase_1D]
+    type = 'Exodiff'
+    input = 'twophase_1D.i'
+    exodiff = 'twophase_1D_out.e'
+  []
+  [twophase_2D]
+    type = 'Exodiff'
+    input = 'twophase_2D.i'
+    exodiff = 'twophase_2D_out.e'
+  []
+  [twophase_3D]
+    type = 'Exodiff'
+    input = 'twophase_3D.i'
+    exodiff = 'twophase_3D_out.e'
+  []
+[]
