@@ -19,6 +19,9 @@ protected:
   virtual void computeQpProperties() override;
 
 private:
-  const Real _lambda_w;
-  const Real _lambda_nw;
+  const Real _w_coeff;
+  const Real _nw_coeff;
+  const Real _krw_end;
+  const Real _krnw_end;
+  const Real _swirr;
 };
