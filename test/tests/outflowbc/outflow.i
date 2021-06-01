@@ -7,7 +7,7 @@
     xmin = 0
     xmax = 1
     ymax = 0.1
-    nx = 20
+    nx = 10
   []
 []
 
@@ -111,7 +111,7 @@
 [DiracKernels]
   [snw]
     type = ConstantPointSource
-    point = '0 0 0'
+    point = '0 0.05 0'
     variable = sw
     value = 2e-5
   []
@@ -176,8 +176,8 @@
   []
   [relperm]
     type = RelPermBC
-    lambda_nw = 4
-    lambda_w = 4
+    w_coeff = 4
+    nw_coeff = 2
     saturation_w = sw
   []
   [props]
@@ -200,14 +200,11 @@
   type = Transient
   solve_type = NEWTON
   end_time = 1e5
-  dtmax = 1e3
+  dtmax = 5e3
   [TimeStepper]
     type = IterationAdaptiveDT
     dt = 1
     growth_factor = 2
-  []
-  [TimeIntegrator]
-    type = BDF2
   []
   nl_abs_tol = 1e-8
   nl_max_its = 10

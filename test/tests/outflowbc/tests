@@ -1,0 +1,7 @@
+[Tests]
+  [outflow]
+    type = 'Exodiff'
+    input = 'outflow.i'
+    exodiff = 'outflow_out.e'
+  []
+[]
