@@ -56,24 +56,27 @@ FVAdvectiveFlux::computeQpResidual()
     p_elem += _pc[_qp];
     p_neighbor += _pc_neighbor[_qp];
   }
-  ADRealVectorValue gradp = (p_neighbor - p_elem) /
-                            (_face_info->neighborCentroid() - _face_info->elemCentroid()).norm() *
-                            (_face_info->elemCentroid() - _face_info->neighborCentroid()).unit();
+
+  const auto centroid_sep = _face_info->neighborCentroid() - _face_info->elemCentroid();
+
+  const ADRealVectorValue gradp = (p_elem - p_neighbor) / centroid_sep.norm() * centroid_sep.unit();
 
   const ADRealTensorValue mobility_element =
       _relperm[_qp] * _permeability[_qp] * _density[_qp] / _viscosity[_qp];
+
   const ADRealTensorValue mobility_neighbor = _relperm_neighbor[_qp] * _permeability_neighbor[_qp] *
                                               _density_neighbor[_qp] / _viscosity_neighbor[_qp];
 
-  ADRealTensorValue mobility_upwind;
+  const auto pressure_grad = gradp - _density[_qp] * _gravity;
 
+  ADRealTensorValue mobility_upwind;
   interpolate(Moose::FV::InterpMethod::Upwind,
               mobility_upwind,
               mobility_element,
               mobility_neighbor,
-              (gradp - _density[_qp] * _gravity),
+              pressure_grad,
               *_face_info,
               true);
 
-  return mobility_upwind * (gradp - _density[_qp] * _gravity) * _normal;
+  return mobility_upwind * pressure_grad * _normal;
 }
