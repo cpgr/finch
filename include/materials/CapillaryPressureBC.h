@@ -4,7 +4,6 @@
 /*           All contents are licensed under MIT/BSD             */
 /*              See LICENSE for full restrictions                */
 /*****************************************************************/
-
 #pragma once
 
 #include "Material.h"
@@ -21,6 +20,7 @@ protected:
 private:
   const Real _lambda;
   const VariableValue & _pe;
+  const Real _swirr;
   const Real _pc_max;
 
   ADMaterialProperty<Real> & _pc;
