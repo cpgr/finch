@@ -1,0 +1,7 @@
+[Tests]
+  [3Dcoreflood_mesh]
+    type = Exodiff
+    input = 3Dcoreflood_mesh.i
+    exodiff = 3Dcoreflood_mesh.e
+  []
+[]

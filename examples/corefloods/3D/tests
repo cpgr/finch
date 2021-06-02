@@ -1,0 +1,7 @@
+[Tests]
+  [3Dcoreflood]
+    type = RunApp
+    input = 3Dcoreflood.i
+    check_input = true
+  []
+[]

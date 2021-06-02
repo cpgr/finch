@@ -1,0 +1,7 @@
+[Tests]
+  [2Dcoreflood]
+    type = RunApp
+    input = 2Dcoreflood.i
+    check_input = true
+  []
+[]
