@@ -1,27 +1,14 @@
-# Buckley-Leverett example with adaptivity
+# Buckley-Leverett example in 2D
 
 [Mesh]
   [mesh]
     type = GeneratedMeshGenerator
     dim = 2
     xmin = 0
-    xmax = 10
-    nx = 50
+    xmax = 1
+    nx = 25
     ymin = -0.5
     ymax = 0.5
-  []
-[]
-
-[Adaptivity]
-  marker = marker
-  max_h_level = 1
-  [Markers]
-    [marker]
-      type = ValueChangeMarker
-      variable = snw
-      upper_bound = 1
-      lower_bound = 0.05
-    []
   []
 []
 
@@ -85,7 +72,6 @@
     family = MONOMIAL
     order = CONSTANT
     fv = true
-    scaling = 1e6
   []
 []
 
@@ -107,27 +93,27 @@
 []
 
 [DiracKernels]
-  [snw1]
+  [snw]
     type = ConstantPointSource
-    point = '0 -0.25 0'
+    point = '0 0 0'
     variable = sw
-    value = 1e-5
-  []
-  [snw2]
-    type = ConstantPointSource
-    point = '0 0.25 0'
-    variable = sw
-    value = 1e-5
+    value = 2e-5
   []
 []
 
-
 [FVBCs]
-  [right]
+  [p_right]
     type = FVDirichletBC
     boundary = right
     variable = pw
     value = 1e6
+  []
+  [snw_right]
+    type = FVDarcyOutflowBC
+    variable = sw
+    boundary = right
+    pressure_w = pw
+    nw_phase = true
   []
 []
 
@@ -138,6 +124,7 @@
     nw_phase = false
     pressure_w = pw
     saturation_w = sw
+    gravity = '0 0 0'
   []
   [time_w]
     type = FVMassTimeDerivative
@@ -151,6 +138,7 @@
     nw_phase = true
     pressure_w = pw
     saturation_w = sw
+    gravity = '0 0 0'
   []
   [time_nw]
     type = FVMassTimeDerivative
@@ -190,8 +178,8 @@
   []
   [relperm]
     type = RelPermBC
-    lambda_nw = 4
-    lambda_w = 4
+    nw_coeff = 4
+    w_coeff = 4
     saturation_w = sw
   []
   [props]
@@ -213,20 +201,13 @@
 [Executioner]
   type = Transient
   solve_type = NEWTON
-  end_time = 1e5
-  dtmax = 1e3
+  end_time = 2e4
+  dtmax = 500
   [TimeStepper]
     type = IterationAdaptiveDT
     dt = 10
     growth_factor = 2
   []
-  [TimeIntegrator]
-    type = BDF2
-  []
-  nl_abs_tol = 1e-8
-  nl_max_its = 10
-  nl_rel_tol = 1e-5
-  l_abs_tol = 1e-12
 []
 
 [Postprocessors]
@@ -246,20 +227,7 @@
   []
 []
 
-[VectorPostprocessors]
-  [snw]
-    type = ElementValueSampler
-    variable = snw
-    sort_by = x
-    execute_on = FINAL
-  []
-[]
-
 [Outputs]
   perf_graph = true
   exodus = true
-  [csv]
-    type = CSV
-    execute_vector_postprocessors_on = FINAL
-  []
 []

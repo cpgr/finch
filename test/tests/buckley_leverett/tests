@@ -1,0 +1,12 @@
+[Tests]
+  [1D]
+    type = 'Exodiff'
+    input = 'bl_1D.i'
+    exodiff = 'bl_1D_out.e'
+  []
+  [2D]
+    type = 'Exodiff'
+    input = 'bl_2D.i'
+    exodiff = 'bl_2D_out.e'
+  []
+[]
