@@ -218,8 +218,8 @@
   []
   [relperm]
     type = RelPermBC
-    lambda_nw = 2
-    lambda_w = 2
+    nw_coeff = 4
+    w_coeff = 4
     saturation_w = sw
   []
   [props]

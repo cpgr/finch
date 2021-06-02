@@ -1,0 +1,7 @@
+[Tests]
+  [capeqm4]
+    type = RunApp
+    input = capeqm4.i
+    check_input = true
+  []
+[]

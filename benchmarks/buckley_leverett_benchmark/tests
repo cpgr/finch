@@ -1,0 +1,17 @@
+[Tests]
+  [bl_1D_BC_RP]
+    type = RunApp
+    input = bl_1D_BC_RP.i
+    check_input = true
+  []
+  [bl_1D_Chi_RP]
+    type = RunApp
+    input = bl_1D_Chi_RP.i
+    check_input = true
+  []
+  [bl_1D_Chi_RP_new]
+    type = RunApp
+    input = bl_1D_Chi_RP_new.i
+    check_input = true
+  []
+[]

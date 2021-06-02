@@ -1,27 +1,56 @@
-# Buckley-Leverett example with adaptivity
+# Capillary equilibrium case 3
+# k1/k2 = 2
+# Pe1/Pe2 = 1/sqrt(2)
 
 [Mesh]
-  [mesh]
+  [left_mesh]
+    type = GeneratedMeshGenerator
+    dim = 1
+    xmin = -1
+    xmax = 0
+    nx = 50
+    bias_x = 0.97
+  []
+  [right_mesh]
     type = GeneratedMeshGenerator
     dim = 1
     xmin = 0
-    xmax = 10
-    nx = 100
+    xmax = 1
+    nx = 50
+    bias_x = 1.03
+  []
+  [stitched]
+    type = StitchedMeshGenerator
+    inputs = 'left_mesh right_mesh'
+    stitch_boundaries_pairs = 'right left'
+  []
+  [blocks]
+    type = SubdomainBoundingBoxGenerator
+    bottom_left = '0 0 0'
+    top_right = '1 1 0'
+    block_id = 1
+    input = stitched
   []
 []
 
-[Adaptivity]
-  marker = marker
-  max_h_level = 3
-  [Markers]
-    [marker]
-      type = ValueChangeMarker
-      variable = snw
-      upper_bound = 1
-      lower_bound = 0.05
-    []
-  []
-[]
+# [Adaptivity]
+#   marker = marker
+#   max_h_level = 1
+#   [Indicators]
+#     [ind]
+#       type = ValueJumpIndicator
+#       variable = swaux
+#     []
+#   []
+#   [Markers]
+#     [marker]
+#       type = ErrorFractionMarker
+#       indicator = ind
+#       refine = 0.5
+#       coarsen = 0.1
+#     []
+#   []
+# []
 
 [Problem]
   kernel_coverage_check = off
@@ -41,6 +70,10 @@
     order = CONSTANT
   []
   [snw]
+    family = MONOMIAL
+    order = CONSTANT
+  []
+  [swaux]
     family = MONOMIAL
     order = CONSTANT
   []
@@ -71,6 +104,13 @@
     property = s_nw
     execute_on = 'initial timestep_end'
   []
+  [swaux]
+    type = ParsedAux
+    variable = swaux
+    function = sw
+    args = sw
+    execute_on = 'initial timestep_end'
+  []
 []
 
 [Variables]
@@ -83,7 +123,7 @@
     family = MONOMIAL
     order = CONSTANT
     fv = true
-    scaling = 1e6
+    scaling = 1e5
   []
 []
 
@@ -93,33 +133,14 @@
 
 [ICs]
   [pw_ic]
-    type = ConstantIC
+    type = FunctionIC
     variable = pw
-    value = 1e6
+    function = 'if(x<0, 1e6, 1e6)'
   []
   [sw_ic]
-    type = ConstantIC
+    type = FunctionIC
     variable = sw
-    value = 1
-  []
-[]
-
-[DiracKernels]
-  [snw]
-    type = ConstantPointSource
-    point = '0 0 0'
-    variable = sw
-    value = 2e-5
-  []
-[]
-
-
-[FVBCs]
-  [right]
-    type = FVDirichletBC
-    boundary = right
-    variable = pw
-    value = 1e6
+    function = 'if(x<0, 1, 0)'
   []
 []
 
@@ -161,8 +182,8 @@
   []
   [fnw]
     type = ConstantFluid
-    density = 10
-    viscosity = 1e-4
+    density = 1000
+    viscosity = 1e-3
     nw_phase = true
   []
   [porosity]
@@ -172,22 +193,33 @@
   [permeability0]
     type = Permeability
     perm_xx = 1e-12
+    block = 0
+  []
+  [permeability1]
+    type = Permeability
+    perm_xx = 0.5e-12
+    block = 1
   []
   [pc0]
-    type = CapillaryPressureBC2
+    type = CapillaryPressureBC
     saturation_w = sw
     lambda = 2
-    pe = 0
-    swirr = 0.08
-    pc_max = 0
+    pe = 3500
+    pc_max = 2e4
+    block = 0
+  []
+  [pc1]
+    type = CapillaryPressureBC
+    saturation_w = sw
+    lambda = 2
+    pe = 4950
+    pc_max = 2e4
+    block = 1
   []
   [relperm]
-    type = RelPermBC2
-    w_coeff = 2
-    nw_coeff = 2
-    krw_end = 1
-    krnw_end = 0.8
-    swirr = 0.08
+    type = RelPermBC
+    nw_coeff = 4
+    w_coeff = 4
     saturation_w = sw
   []
   [props]
@@ -209,36 +241,26 @@
 [Executioner]
   type = Transient
   solve_type = NEWTON
-  end_time = 4e5
-  dtmax = 500
+  end_time = 1e4
+  dtmax = 10
   [TimeStepper]
     type = IterationAdaptiveDT
-    dt = 0.00001
-    growth_factor = 2
+    dt = 1e-3
+    growth_factor = 1.5
   []
   [TimeIntegrator]
     type = BDF2
   []
-  nl_abs_tol = 1e-8
+  nl_abs_tol = 1e-6
   nl_max_its = 10
   nl_rel_tol = 1e-5
-  l_abs_tol = 1e-12
+  l_abs_tol = 1e-8
 []
 
 [Postprocessors]
   [numelems]
     type = NumElems
-    execute_on = 'INITIAL TIMESTEP_END'
-  []
-  [massw]
-    type = FluidMass
-    nw_phase = false
-    execute_on = 'INITIAL TIMESTEP_END'
-  []
-  [massnw]
-    type = FluidMass
-    nw_phase = true
-    execute_on = 'INITIAL TIMESTEP_END'
+    outputs = console
   []
 []
 
@@ -256,8 +278,7 @@
   interval = 10
   [csv]
     type = CSV
-    sync_times = '1e5 2e5 4e5'
+    sync_times = '1e4 4e4 1e5 2e5 4e5'
     sync_only = true
-    time_data = true
   []
 []
