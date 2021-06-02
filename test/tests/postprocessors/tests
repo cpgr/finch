@@ -1,0 +1,12 @@
+[Tests]
+  [constant]
+    type = 'CSVDiff'
+    input = 'constant_mass.i'
+    csvdiff = 'constant_mass_out.csv'
+  []
+  [increasing]
+    type = 'CSVDiff'
+    input = 'increasing_mass.i'
+    csvdiff = 'increasing_mass_out.csv'
+  []
+[]
