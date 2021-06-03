@@ -42,7 +42,7 @@ Any questions, feel free to contact the developers or raise an issue on the finc
 
 finch has been developed by
 - Chris Green, CSIRO ([cpgr](https://github.com/cpgr))
-- Sam Jackson ([sci-sjj](https://github.com/csi-sjj))
+- Sam Jackson, CSIRO ([sci-sjj](https://github.com/csi-sjj))
 
 New contributions are welcome, using the pull request feature of GitHub.
 
