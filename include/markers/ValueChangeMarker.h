@@ -21,8 +21,4 @@ protected:
   const VariableValue & _u_old;
 
   Real _lower_bound;
-  Real _upper_bound;
-
-  MarkerValue _inside;
-  MarkerValue _outside;
 };
