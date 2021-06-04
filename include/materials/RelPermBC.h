@@ -24,4 +24,5 @@ private:
   const Real _krw_end;
   const Real _krnw_end;
   const Real _swirr;
+  const bool _use_legacy_form;
 };
