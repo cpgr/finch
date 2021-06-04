@@ -1,56 +1,62 @@
 # Capillary equilibrium case 1
 # k1/k2 = 1
 # Pe1/Pe2 = 1
+#
+# Note: Analytical solutions use the legacy form of BC relperm for nw phase
 
 [Mesh]
-  [left_mesh]
+  # [left_mesh]
+  [mesh]
     type = GeneratedMeshGenerator
     dim = 1
     xmin = -1
-    xmax = 0
-    nx = 50
-    bias_x = 1.02
-  []
-  [right_mesh]
-    type = GeneratedMeshGenerator
-    dim = 1
-    xmin = 0
     xmax = 1
-    nx = 50
-    bias_x = 0.98
+    nx = 25
+    # bias_x = 1.02
   []
-  [stitched]
-    type = StitchedMeshGenerator
-    inputs = 'left_mesh right_mesh'
-    stitch_boundaries_pairs = 'right left'
-  []
+  # [right_mesh]
+  #   type = GeneratedMeshGenerator
+  #   dim = 1
+  #   xmin = 0
+  #   xmax = 1
+  #   nx = 50
+  #   bias_x = 0.98
+  # []
+  # [stitched]
+  #   type = StitchedMeshGenerator
+  #   inputs = 'left_mesh right_mesh'
+  #   stitch_boundaries_pairs = 'right left'
+  # []
   [blocks]
     type = SubdomainBoundingBoxGenerator
     bottom_left = '0 0 0'
     top_right = '1 1 0'
     block_id = 1
-    input = stitched
+    # input = stitched
+    input = mesh
   []
 []
 
-# [Adaptivity]
-#   marker = marker
-#   max_h_level = 1
-#   [Indicators]
-#     [ind]
-#       type = ValueJumpIndicator
-#       variable = swaux
-#     []
-#   []
-#   [Markers]
-#     [marker]
-#       type = ErrorFractionMarker
-#       indicator = ind
-#       refine = 0.5
-#       coarsen = 0.1
-#     []
-#   []
-# []
+[Adaptivity]
+  initial_marker = marker
+  initial_steps = 4
+  marker = marker
+  max_h_level = 4
+  [Indicators]
+    [ind]
+      type = FVGradientIndicator
+      variable = sw
+    []
+  []
+  [Markers]
+    [marker]
+      type = ValueJumpMarker
+      indicator = ind
+      refine = 0.3
+      coarsen = 0.15
+    []
+  []
+[]
 
 [Problem]
   kernel_coverage_check = off
@@ -73,10 +79,10 @@
     family = MONOMIAL
     order = CONSTANT
   []
-  [swaux]
-    family = MONOMIAL
-    order = CONSTANT
-  []
+  # [swaux]
+  #   family = MONOMIAL
+  #   order = CONSTANT
+  # []
 []
 
 [AuxKernels]
@@ -104,13 +110,13 @@
     property = s_nw
     execute_on = 'initial timestep_end'
   []
-  [swaux]
-    type = ParsedAux
-    variable = swaux
-    function = sw
-    args = sw
-    execute_on = 'initial timestep_end'
-  []
+  # [swaux]
+  #   type = ParsedAux
+  #   variable = swaux
+  #   function = sw
+  #   args = sw
+  #   execute_on = 'initial timestep_end'
+  # []
 []
 
 [Variables]
@@ -218,9 +224,10 @@
   []
   [relperm]
     type = RelPermBC
-    nw_coeff = 4
+    nw_coeff = 2
     w_coeff = 4
     saturation_w = sw
+    use_legacy_form = true
   []
   [props]
     type = PressureSaturation
@@ -241,26 +248,25 @@
 [Executioner]
   type = Transient
   solve_type = NEWTON
-  end_time = 1e4
-  dtmax = 10
+  end_time = 4e5
+  dtmax = 20
   [TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1e-3
-    growth_factor = 1.5
+    dt = 1e-4
   []
   [TimeIntegrator]
     type = BDF2
   []
   nl_abs_tol = 1e-6
-  nl_max_its = 10
-  nl_rel_tol = 1e-5
+  nl_max_its = 25
+  nl_rel_tol = 1e-6
   l_abs_tol = 1e-8
 []
 
 [Postprocessors]
   [numelems]
     type = NumElems
-    outputs = console
+    # outputs = console
   []
 []
 
@@ -280,5 +286,6 @@
     type = CSV
     sync_times = '1e4 4e4 1e5 2e5 4e5'
     sync_only = true
+    time_data = true
   []
 []
