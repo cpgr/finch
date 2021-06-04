@@ -1,4 +1,3 @@
-
 /*****************************************************************/
 /*    FINCH - FINite volume Capillary Heterogeneity modelling    */
 /*                                                               */
