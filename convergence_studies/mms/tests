@@ -1,0 +1,12 @@
+[Tests]
+  [mms]
+    type = RunApp
+    input = mms.i
+    check_input = true
+  []
+  [mms_t]
+    type = RunApp
+    input = mms_t.i
+    check_input = true
+  []
+[]

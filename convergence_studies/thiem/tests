@@ -1,0 +1,7 @@
+[Tests]
+  [thiem]
+    type = RunApp
+    input = thiem.i
+    check_input = true
+  []
+[]

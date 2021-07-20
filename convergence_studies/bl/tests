@@ -1,0 +1,7 @@
+[Tests]
+  [bl]
+    type = RunApp
+    input = bl.i
+    check_input = true
+  []
+[]
