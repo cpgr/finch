@@ -1,6 +1,8 @@
 # Capillary equilibrium case 3
 # k1/k2 = 2
 # Pe1/Pe2 = 1/sqrt(2)
+#
+# Note: Analytical solutions use the legacy form of BC relperm for nw phase
 
 [Mesh]
   [left_mesh]
@@ -33,24 +35,26 @@
   []
 []
 
-# [Adaptivity]
-#   marker = marker
-#   max_h_level = 1
-#   [Indicators]
-#     [ind]
-#       type = ValueJumpIndicator
-#       variable = swaux
-#     []
-#   []
-#   [Markers]
-#     [marker]
-#       type = ErrorFractionMarker
-#       indicator = ind
-#       refine = 0.5
-#       coarsen = 0.1
-#     []
-#   []
-# []
+[Adaptivity]
+  initial_marker = marker
+  initial_steps = 2
+  marker = marker
+  max_h_level = 2
+  [Indicators]
+    [ind]
+      type = FVGradientIndicator
+      variable = sw
+    []
+  []
+  [Markers]
+    [marker]
+      type = ValueJumpMarker
+      indicator = ind
+      refine = 0.3
+      coarsen = 0.15
+    []
+  []
+[]
 
 [Problem]
   kernel_coverage_check = off
@@ -70,10 +74,6 @@
     order = CONSTANT
   []
   [snw]
-    family = MONOMIAL
-    order = CONSTANT
-  []
-  [swaux]
     family = MONOMIAL
     order = CONSTANT
   []
@@ -102,13 +102,6 @@
     type = ADMaterialRealAux
     variable = snw
     property = s_nw
-    execute_on = 'initial timestep_end'
-  []
-  [swaux]
-    type = ParsedAux
-    variable = swaux
-    function = sw
-    args = sw
     execute_on = 'initial timestep_end'
   []
 []
@@ -218,9 +211,10 @@
   []
   [relperm]
     type = RelPermBC
-    nw_coeff = 4
+    nw_coeff = 2
     w_coeff = 4
     saturation_w = sw
+    use_legacy_form = true
   []
   [props]
     type = PressureSaturation
@@ -260,7 +254,6 @@
 [Postprocessors]
   [numelems]
     type = NumElems
-    outputs = console
   []
 []
 
@@ -280,5 +273,6 @@
     type = CSV
     sync_times = '1e4 4e4 1e5 2e5 4e5'
     sync_only = true
+    time_data = true
   []
 []

@@ -5,43 +5,41 @@
 # Note: Analytical solutions use the legacy form of BC relperm for nw phase
 
 [Mesh]
-  # [left_mesh]
-  [mesh]
+  [left_mesh]
     type = GeneratedMeshGenerator
     dim = 1
     xmin = -1
-    xmax = 1
-    nx = 25
-    # bias_x = 1.02
+    xmax = 0
+    nx = 50
+    bias_x = 0.98
   []
-  # [right_mesh]
-  #   type = GeneratedMeshGenerator
-  #   dim = 1
-  #   xmin = 0
-  #   xmax = 1
-  #   nx = 50
-  #   bias_x = 0.98
-  # []
-  # [stitched]
-  #   type = StitchedMeshGenerator
-  #   inputs = 'left_mesh right_mesh'
-  #   stitch_boundaries_pairs = 'right left'
-  # []
+  [right_mesh]
+    type = GeneratedMeshGenerator
+    dim = 1
+    xmin = 0
+    xmax = 1
+    nx = 50
+    bias_x = 1.02
+  []
+  [stitched]
+    type = StitchedMeshGenerator
+    inputs = 'left_mesh right_mesh'
+    stitch_boundaries_pairs = 'right left'
+  []
   [blocks]
     type = SubdomainBoundingBoxGenerator
     bottom_left = '0 0 0'
     top_right = '1 1 0'
     block_id = 1
-    # input = stitched
-    input = mesh
+    input = stitched
   []
 []
 
 [Adaptivity]
   initial_marker = marker
-  initial_steps = 4
+  initial_steps = 2
   marker = marker
-  max_h_level = 4
+  max_h_level = 2
   [Indicators]
     [ind]
       type = FVGradientIndicator
@@ -79,10 +77,6 @@
     family = MONOMIAL
     order = CONSTANT
   []
-  # [swaux]
-  #   family = MONOMIAL
-  #   order = CONSTANT
-  # []
 []
 
 [AuxKernels]
@@ -110,13 +104,6 @@
     property = s_nw
     execute_on = 'initial timestep_end'
   []
-  # [swaux]
-  #   type = ParsedAux
-  #   variable = swaux
-  #   function = sw
-  #   args = sw
-  #   execute_on = 'initial timestep_end'
-  # []
 []
 
 [Variables]
@@ -266,7 +253,6 @@
 [Postprocessors]
   [numelems]
     type = NumElems
-    # outputs = console
   []
 []
 
