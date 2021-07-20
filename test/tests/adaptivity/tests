@@ -1,0 +1,17 @@
+[Tests]
+  [gradient_refinement]
+    type = 'Exodiff'
+    input = 'gradient_refinement.i'
+    exodiff = 'gradient_refinement_out.e'
+  []
+  [gradient_refinement_with_coarsening]
+    type = 'Exodiff'
+    input = 'gradient_refinement_with_coarsening.i'
+    exodiff = 'gradient_refinement_with_coarsening_out.e'
+  []
+  [valuechange_refinement]
+    type = 'Exodiff'
+    input = 'valuechange_refinement.i'
+    exodiff = 'valuechange_refinement_out.e'
+  []
+[]

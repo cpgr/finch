@@ -3,18 +3,18 @@
 clearvars
 clc
 
-load('sol_capeqm1')
+load('solutions/sol_capeqm1')
 
 times  = csvread('capeqm1/capeqm1_csv_snw_time.csv', 1,1) ;
 
 for i = 1:1
-    if (times(i) < 1000)  
-     sol_capeqm1_num{i} = csvread(['capeqm1/capeqm1_csv_snw_' , num2str(times(i),'%04d'),'.csv'],1,1) ;   
+    if (times(i) < 1000)
+     sol_capeqm1_num{i} = csvread(['capeqm1/capeqm1_csv_snw_' , num2str(times(i),'%04d'),'.csv'],1,1) ;
     else
-         sol_capeqm1_num{i} = csvread(['capeqm1/capeqm1_csv_snw_' , int2str(times(i)),'.csv'],1,1) ; 
+         sol_capeqm1_num{i} = csvread(['capeqm1/capeqm1_csv_snw_' , int2str(times(i)),'.csv'],1,1) ;
     end
 end
-    
+
 
 figure
 hold on
@@ -47,18 +47,20 @@ set(gca,'Fontsize',16)
 clearvars
 clc
 
-load('sol_capeqm1')
+
+load('solutions/sol_capeqm1')
 
 times  = csvread('capeqm1/capeqm1_csv_snw_time.csv', 1,1) ;
 
 for i = 1:5
-    if (times(i) < 1000)  
-     sol_capeqm1_num{i} = csvread(['capeqm1/capeqm1_csv_snw_' , num2str(times(i),'%04d'),'.csv'],1,1) ;   
+    
+    if (times(i) < 1000)
+     sol_capeqm1_num{i} = csvread(['capeqm1/capeqm1_csv_snw_' , num2str(times(i),'%04d'),'.csv'],1,1) ;
     else
-         sol_capeqm1_num{i} = csvread(['capeqm1/capeqm1_csv_snw_' , int2str(times(i)),'.csv'],1,1) ; 
+         sol_capeqm1_num{i} = csvread(['capeqm1/capeqm1_csv_snw_' , int2str(times(i)),'.csv'],1,1) ;
     end
 end
-    
+
 
 figure
 hold on
@@ -86,11 +88,10 @@ set(gcf,'color','w');
 set(gca,'TickLabelInterpreter','latex')
 set(gca,'Fontsize',16)
 
-
 %%
    figure1 = figure('Renderer', 'painters', 'Position', [700,500,1000,200]);
 hold on
-for i = 5 
+for i = 5
 len = size(sol_capeqm1_num{i}, 1);
 plot(sol_capeqm1_num{i}(:,2),zeros(1,len), 'o-', 'linewidth', 2, 'markersize', 3)
 end
@@ -113,13 +114,13 @@ close all
 clearvars
 clc
 
-load('sol_capeqm4')
+load('solutions/sol_capeqm4')
 
-sol_capeqm4_num{1} = csvread('capeqm4_csv_snw_1825.csv',1,1) ;
-sol_capeqm4_num{2} = csvread('capeqm4_csv_snw_5416.csv',1,1) ;
-sol_capeqm4_num{3} = csvread('capeqm4_csv_snw_10841.csv',1,1) ;
-sol_capeqm4_num{4} = csvread('capeqm4_csv_snw_18320.csv',1,1) ;
-sol_capeqm4_num{5} = csvread('capeqm4_csv_snw_31284.csv',1,1) ;
+sol_capeqm4_num{1} = csvread('capeqm4/capeqm4_csv_snw_1825.csv',1,1) ;
+sol_capeqm4_num{2} = csvread('capeqm4/capeqm4_csv_snw_5416.csv',1,1) ;
+sol_capeqm4_num{3} = csvread('capeqm4/capeqm4_csv_snw_10841.csv',1,1) ;
+sol_capeqm4_num{4} = csvread('capeqm4/capeqm4_csv_snw_18320.csv',1,1) ;
+sol_capeqm4_num{5} = csvread('capeqm4/capeqm4_csv_snw_31284.csv',1,1) ;
 
 figure
 hold on
@@ -139,16 +140,16 @@ title('Case 4')
  xlabel('x')
  ylabel('S')
  axis([-1 1 0 1])
- 
- %%
- 
- load('sol_capeqm3')
 
-sol_capeqm3_num{1} = csvread('capeqm3_csv_snw_0197.csv',1,1) ;
-sol_capeqm3_num{2} = csvread('capeqm3_csv_snw_0425.csv',1,1) ;
-sol_capeqm3_num{3} = csvread('capeqm3_csv_snw_0679.csv',1,1) ;
-sol_capeqm3_num{4} = csvread('capeqm3_csv_snw_1002.csv',1,1) ;
-sol_capeqm3_num{5} = csvread('capeqm3_csv_snw_1546.csv',1,1) ;
+ %%
+
+ load('solutions/sol_capeqm3')
+
+sol_capeqm3_num{1} = csvread('capeqm3/capeqm3_csv_snw_0197.csv',1,1) ;
+sol_capeqm3_num{2} = csvread('capeqm3/capeqm3_csv_snw_0425.csv',1,1) ;
+sol_capeqm3_num{3} = csvread('capeqm3/capeqm3_csv_snw_0679.csv',1,1) ;
+sol_capeqm3_num{4} = csvread('capeqm3/capeqm3_csv_snw_1002.csv',1,1) ;
+sol_capeqm3_num{5} = csvread('capeqm3/capeqm3_csv_snw_1546.csv',1,1) ;
 
 figure
 hold on
@@ -168,16 +169,16 @@ title('Case 3')
  xlabel('x')
  ylabel('S')
  axis([-1 1 0 1])
- 
- %%
- 
-load('sol_capeqm2')
 
-sol_capeqm2_num{1} = csvread('capeqm2_csv_snw_0718.csv',1,1) ;
-sol_capeqm2_num{2} = csvread('capeqm2_csv_snw_1746.csv',1,1) ;
-sol_capeqm2_num{3} = csvread('capeqm2_csv_snw_3037.csv',1,1) ;
-sol_capeqm2_num{4} = csvread('capeqm2_csv_snw_4527.csv',1,1) ;
-sol_capeqm2_num{5} = csvread('capeqm2_csv_snw_6717.csv',1,1) ;
+ %%
+
+load('solutions/sol_capeqm2')
+
+sol_capeqm2_num{1} = csvread('capeqm2/capeqm2_csv_snw_0718.csv',1,1) ;
+sol_capeqm2_num{2} = csvread('capeqm2/capeqm2_csv_snw_1746.csv',1,1) ;
+sol_capeqm2_num{3} = csvread('capeqm2/capeqm2_csv_snw_3037.csv',1,1) ;
+sol_capeqm2_num{4} = csvread('capeqm2/capeqm2_csv_snw_4527.csv',1,1) ;
+sol_capeqm2_num{5} = csvread('capeqm2/capeqm2_csv_snw_6717.csv',1,1) ;
 
 figure
 hold on
@@ -197,4 +198,3 @@ title('Case 2')
  xlabel('x')
  ylabel('S')
  axis([-1 1 0 1])
-

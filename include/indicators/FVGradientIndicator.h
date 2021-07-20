@@ -7,22 +7,14 @@
 
 #pragma once
 
-#include "RelPermBase.h"
+#include "InternalSideIndicator.h"
 
-class RelPermBC : public RelPermBase
+class FVGradientIndicator : public InternalSideIndicator
 {
 public:
   static InputParameters validParams();
-  RelPermBC(const InputParameters & parameters);
+  FVGradientIndicator(const InputParameters & parameters);
 
 protected:
-  virtual void computeQpProperties() override;
-
-private:
-  const Real _w_coeff;
-  const Real _nw_coeff;
-  const Real _krw_end;
-  const Real _krnw_end;
-  const Real _swirr;
-  const bool _use_legacy_form;
+  virtual Real computeQpIntegral() override;
 };

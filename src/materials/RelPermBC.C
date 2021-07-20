@@ -21,6 +21,9 @@ RelPermBC::validParams()
       "krw_end", 1, "The endpoint relative permeability the wetting phase (default is 1)");
   params.addParam<Real>(
       "krnw_end", 1, "The endpoint relative permeability the non-wetting phase (default is 1)");
+  params.addParam<bool>("use_legacy_form",
+                        false,
+                        "Set true to use legacy form of non-wetting phase relative permeability");
   return params;
 }
 
@@ -30,7 +33,8 @@ RelPermBC::RelPermBC(const InputParameters & parameters)
     _nw_coeff(getParam<Real>("nw_coeff")),
     _krw_end(getParam<Real>("krw_end")),
     _krnw_end(getParam<Real>("krnw_end")),
-    _swirr(getParam<Real>("swirr"))
+    _swirr(getParam<Real>("swirr")),
+    _use_legacy_form(getParam<bool>("use_legacy_form"))
 {
 }
 
@@ -44,8 +48,14 @@ RelPermBC::computeQpProperties()
   }
   else
   {
-    _relperm_w[_qp] = _krw_end * std::pow(((_sw[_qp] - _swirr) / (1.0 - _swirr)), _w_coeff);
-    _relperm_nw[_qp] =
-        _krnw_end * std::pow(1.0 - ((_sw[_qp] - _swirr) / (1.0 - _swirr)), _nw_coeff);
+    const ADReal s = (_sw[_qp] - _swirr) / (1.0 - _swirr);
+
+    _relperm_w[_qp] = _krw_end * std::pow(s, _w_coeff);
+
+    if (_use_legacy_form)
+      _relperm_nw[_qp] =
+          _krnw_end * (1.0 - s) * (1.0 - s) * (1.0 - std::pow(s, (2.0 + _nw_coeff) / _nw_coeff));
+    else
+      _relperm_nw[_qp] = _krnw_end * std::pow(1.0 - s, _nw_coeff);
   }
 }

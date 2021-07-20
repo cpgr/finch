@@ -7,22 +7,17 @@
 
 #pragma once
 
-#include "RelPermBase.h"
+#include "IndicatorMarker.h"
 
-class RelPermBC : public RelPermBase
+class ValueJumpMarker : public IndicatorMarker
 {
 public:
   static InputParameters validParams();
-  RelPermBC(const InputParameters & parameters);
+  ValueJumpMarker(const InputParameters & parameters);
 
 protected:
-  virtual void computeQpProperties() override;
+  virtual MarkerValue computeElementMarker() override;
 
-private:
-  const Real _w_coeff;
-  const Real _nw_coeff;
-  const Real _krw_end;
-  const Real _krnw_end;
-  const Real _swirr;
-  const bool _use_legacy_form;
+  const Real _refine;
+  const Real _coarsen;
 };
