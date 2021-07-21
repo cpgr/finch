@@ -1,0 +1,8 @@
+[Tests]
+  [scaling]
+    type = RunApp
+    input = 3D_cpu_scaling.i
+    cli_args = 'Mesh/mesh/nx=10 Mesh/mesh/ny=10 Mesh/mesh/nz=10'
+    check_input = true
+  []
+[]
