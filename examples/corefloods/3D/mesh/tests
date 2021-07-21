@@ -1,7 +1,8 @@
 [Tests]
   [3Dcoreflood_mesh]
-    type = Exodiff
+    type = RunApp
     input = 3Dcoreflood_mesh.i
-    exodiff = 3Dcoreflood_mesh.e
+    cli_args = 'Mesh/mesh/nx=10 Mesh/mesh/ny=10 Mesh/mesh/nz=10'
+    check_input = true
   []
 []

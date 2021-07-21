@@ -6,12 +6,18 @@
 # Injection rate: 1e-7 kg/s for 5 hours
 #
 # NOTE: this should be run in parallel!
+# NOTE: The 'test' mesh is only for checking syntax during the test suite
 
 [Mesh]
+  active = 'core'
   [core]
     type = FileMeshGenerator
     file = './mesh/gold/3Dcoreflood_mesh.e'
     use_for_exodus_restart = true
+  []
+  [test]
+    type = GeneratedMeshGenerator
+    dim = 3
   []
 []
 

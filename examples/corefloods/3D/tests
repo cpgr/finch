@@ -2,6 +2,7 @@
   [3Dcoreflood]
     type = RunApp
     input = 3Dcoreflood.i
+    cli_args = 'Mesh/active=test'
     check_input = true
   []
 []
